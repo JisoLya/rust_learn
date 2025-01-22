@@ -1,18 +1,11 @@
 fn main() {
-    //字符串不支持索引访问的模式
+    //字符串的切割
+    let s = "我是Jisoo";
+    //4不是字符的边界,这里切割会panic
+    // let split = &s[..4];
+    // println!("{}",split);
+    let sp = &s[..6];
+    println!("{}",sp);
 
-    let s = String::from("我是11");
-    /*
-        字节，标量值，字形簇(最接近字母的概念)
-     */
-    for b in s.bytes(){
-        print!("{}+",b)
-    }
-    println!();
-    // 标量值
-    for c in s.chars(){
-        print!("{}+",c);
-    }
-    println!()
-    //字符串获取字形簇比较麻烦
+    //遍历String, 字节bytes() 标量值chars()
 }
