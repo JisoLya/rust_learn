@@ -1,27 +1,12 @@
-#[derive(Debug)]
-enum Sp {
-    type1(i32),
-    type2(String),
-}
-
 fn main() {
+    let s = "Hello world".to_string();
+    let mut s2 = String::from("123");
+    //字符串切片&str有点类似与java中的字符串常量池中的一个借用，在内存当中
     
-    let mut v = vec![10,20,123];
-    for i in &mut v{
-        *i += 20;
-    }
+    //push_str不会获取参数字符串切片的所有权
+    s2.push_str("122");
+    println!("{}",s2);
 
-    for i in v{
-        println!("{}",i);
-    }
-
-    //有意思的是，利用枚举可以附带值的特性，我们可以在vector中存储枚举类型来达到存储不同类型的目的
-    let example = vec![
-        Sp::type1(3),
-        Sp::type2(String::from("abcd")),
-    ];
-
-    for i in example{
-        println!("{:#?}",i);
-    }
+    //push():把一个字符附加到String后面
+    
 }
