@@ -1,9 +1,18 @@
 fn main() {
-    // 使用format拼接字符串
-    let s1 = String::from("aaa");
-    let s2 = String::from("bbb");
-    let s3 = String::from("ccc");
+    //字符串不支持索引访问的模式
 
-    let s = format!("{}-{}-{}",s1,s2,s3);
-    println!("{}",s);
+    let s = String::from("我是11");
+    /*
+        字节，标量值，字形簇(最接近字母的概念)
+     */
+    for b in s.bytes(){
+        print!("{}+",b)
+    }
+    println!();
+    // 标量值
+    for c in s.chars(){
+        print!("{}+",c);
+    }
+    println!()
+    //字符串获取字形簇比较麻烦
 }
