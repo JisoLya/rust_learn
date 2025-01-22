@@ -1,12 +1,19 @@
 fn main() {
-    let s = "Hello world".to_string();
-    let mut s2 = String::from("123");
-    //字符串切片&str有点类似与java中的字符串常量池中的一个借用，在内存当中
-    
-    //push_str不会获取参数字符串切片的所有权
-    s2.push_str("122");
-    println!("{}",s2);
+    let s1 = String::from("Hello ,");
+    let s2 = String::from("world");
 
-    //push():把一个字符附加到String后面
-    
+    //这里+相当于调用了一个方法
+    /*
+        fn add(self, s:&str) -> String{...}
+        只能把&str添加到String类型上
+        这里&s2是String的引用类型，rust使用了解引用强制转换的方法
+
+        而且由于第二个参数是借用类型，第二个参数的所有权会保留，第一个参数没有&符号，函数会获得s1的所有权
+        因此打印会报错
+     */
+    let s3 = s1 + &s2;
+
+    // println!("{}",s1);
+    println!("{}",s2);
+    println!("{}",s3);
 }
