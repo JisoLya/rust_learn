@@ -14,5 +14,7 @@ fn main() {
         unwrap方法,相当于上边的语句
 
      */
-    let f = File::open("hello.txt").unwrap();
+    // let f = File::open("hello.txt").unwrap();
+
+    let f = File::open("hello.txt").expect("错误信息");
 }   
