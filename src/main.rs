@@ -1,37 +1,29 @@
-// use std::fs::File;
-// use std::io;
-// use std::io::Read;
-use std::{fs::File, io, io::Read};
 fn main() {
     /*
-        传播错误：如何将错误返回给调用者
-     */
+        泛型，处理重复代码
+
+     */  
 }
 
-fn read_username_from_file() -> Result<String,io::Error>{
-    // let mut f = File::open("hello.txt")?;
-    // // Rust提供了?运算符，用来简化传播错误的操作,Result类型后?表示如果Result返回了Ok变体，那么把Ok中的值作为表达式的值输出
-    // // 否则，把这个Err(e)返回
-    // // let mut f = match f{
-    // //     Ok(file) => file,
-    // //     Err(e) => return Err(e),
-    // // };
+//需要实现Trait,大概是这样，后面再实现泛型实现相应Trait
+fn larget<T>(list: &[T]) -> T{
+    let mut largest = list[0];
+    for &item in list{
+        if item > largest{
+            largest = item;
+        }
+    };
+    largest
+}
 
-    // let mut s = String::new();
-    // // match f.read_to_string(&mut s){
-    // //     Ok(_) => Ok(s),
-    // //     Err(e) => Err(e),
-    // // }
-    // f.read_to_string(&mut s)?;
-    // Ok(s)
+//结构体中的泛型
+struct Point<T>{
+    x: T,
+    y: T,
+}
 
-    /*
-        Trait std::convert::From上的from函数
-        - 用于错误之间的转换
-        ?与from函数，被?所应用的错误，会隐式的被from函数处理，他所接收的错误类型会被转换为当前函数返回值的错误类型
-     */
-    //也可以链式调用
-    let mut s = String::new();
-    File::open("hello.txt")?.read_to_string(&mut s)?;
-    Ok(s)
+// 枚举中使用泛型
+enum ex<T,E> {
+    a(T),
+    b(E),
 }
