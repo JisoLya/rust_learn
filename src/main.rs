@@ -1,44 +1,25 @@
+struct Point<T,V>{
+    x: T,
+    y: V,
+}
+
+impl <T,V> Point<T,V> {
+    //处理一个具有U，W泛型的函数
+    fn mixup<U,W>(self,other:Point<U,W>) -> Point<U,V>{
+        Point{
+            x : other.x,
+            y : self.y,
+        }
+    }
+}
 fn main() {
     /*
         泛型，处理重复代码
 
-     */  
+     */
+    let p1 = Point{x : 5, y : 32};
+    let p2 = Point{x: "123",y : 3.0};
+    let p3 = p1.mixup(p2);
+
+    println!("p3.x = {}, p3.y = {}",p3.x,p3.y);
 }
-
-//需要实现Trait,大概是这样，后面再实现泛型实现相应Trait
-fn larget<T>(list: &[T]) -> T{
-    let mut largest = list[0];
-    for &item in list{
-        if item > largest{
-            largest = item;
-        }
-    };
-    largest
-}
-
-//结构体中的泛型
-struct Point<T>{
-    x: T,
-    y: T,
-}
-//方法中的泛型,表示在类型T上实现方法
-impl<T> Point<T> {
-    fn x1(&self){
-
-    }
-}
-//只有i32类型的结构体才有这个x2方法，其他泛型没有
-impl Point<i32>{
-    fn x2(&self){
-
-    }
-}
-
-
-// 枚举中使用泛型
-enum ex<T,E> {
-    a(T),
-    b(E),
-}
-
-
