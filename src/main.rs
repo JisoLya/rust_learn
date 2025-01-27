@@ -21,9 +21,24 @@ struct Point<T>{
     x: T,
     y: T,
 }
+//方法中的泛型,表示在类型T上实现方法
+impl<T> Point<T> {
+    fn x1(&self){
+
+    }
+}
+//只有i32类型的结构体才有这个x2方法，其他泛型没有
+impl Point<i32>{
+    fn x2(&self){
+
+    }
+}
+
 
 // 枚举中使用泛型
 enum ex<T,E> {
     a(T),
     b(E),
 }
+
+
