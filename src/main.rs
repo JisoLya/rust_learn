@@ -1,19 +1,14 @@
 fn main() {
     /*
-      测试函数
-      使用cargo test命令会运行所有测试函数
-      可以添加自定义的信息，
-      assert!(),第一个参数必填，第二个参数可以填自定义的信息
-      assert_eq!()和assert_ne! 前两个参数必填，自定义消息作为第三个参数,当然可以使用自定义占位符{}
+    验证错误：should_panic属性
+    测试出现panic会测试通过
      */
 }
 
 #[test]
-fn test_1(){
-    println!("hello!");
-}
-
-#[test]
-fn test_2(){
-    assert_eq!(2,3,"不等");
+//可以指定错误信息，当不是assertion failed 时测试不会通过
+#[should_panic(expected = "assertion failed")]
+fn test(){
+    panic!("111");
+    // panic!("assertion failed");
 }
