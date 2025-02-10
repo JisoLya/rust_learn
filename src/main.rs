@@ -1,14 +1,21 @@
 fn main() {
+    // 文档注释:///,支持md语法，
+    // 使用cargo doc生成文档,并且把生成的稳定那个放在target/doc目录下
+    
     /*
-    release profile
-    - 预定义的
-    - 可自定义：可以使用不同的配置，对代码编译拥有更多的控制
+    常用章节
+    # Examples
+    # Panics 返回可能发生panic的场景
+    # Errors 如果函数返回Result，描述可能的错误种类,以及可导致错误的条件
+    # Safety 如果函数处于unsafe调用，就应该注释函数unsafe的原因，以及调用者确保使用的前提
     
-    Cargo主要的两个profile
-    - dev profile 执行cargo build
-    - release profile适用于发布，cargo build --release
+    以及cargo test会把文档的实例代码段作为测试运行.
     
-    自定义profile
-    在cargo.toml添加[profile.xxx]区域，覆盖默认的子集即可，看Cargo.toml...
+    为包含注释的项添加文档注释
+    符号//! ，通常用于描述crate和模块
+    - crate root 按惯例src/lib.rs
+    - 一个模块内，将crate或模块作为一个整体进行记录
      */
+    
+    
 }

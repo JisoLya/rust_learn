@@ -2,11 +2,3 @@
 name = "my-project"
 version = "0.1.0"
 edition = "2021"
-
-[profile.dev]
-# 表示cargo在编译阶段的优化程度,在dev阶段尽可能的缩短编译时间
-opt-level = 1
-
-[profile.release]
-# 在release阶段尽可能多的优化
-opt-level = 3
