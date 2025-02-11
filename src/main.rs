@@ -1,36 +1,25 @@
-use std::rc::Rc;
-use crate::List::{Cons, Nil};
+use std::cell::RefCell;
 
 fn main() {
     /*
-    Rc<T>引用计数智能指针
-    使用场景：需要在heap上分配数据，这些数据被程序的多个部分读取，但在编译时无法确定那个部分最后使用完这些数据
-    Rc::clone(&a) 增加引用计数
-    Rc::strong_count(&a)获得引用计数
+    RefCell<T> 和Box<T>
+    Box<T>:
+    在编译阶段强制代码遵守借用规则
     
+    RefCell<T>:
+    在运行时检查借用规则    
      */
-    let a = Cons(5,
-        Box::new(Cons(10,
-        Box::new(Nil)))
-    );
-    let b = Cons(3,Box::new(a));
-    //这里a的所有权被移交了，可以把枚举中的Box改称Rc
-    let c = Cons(2,Box::new(a));
-    
-    let a = Rc::new(List2::Cons(5,
-                        Rc::new(List2::Cons(10,
-                            Rc::new(List2::Nil)
-                        ))
-    ));
-    let b = List2::Cons(3,Rc::clone(&a));
-    let c = List2::Cons(5,Rc::clone(&a));
-}
-enum List{
-    Cons(i32, Box<List>),
-    Nil,
+    let v = vec![1,2,3];
+    //这里b是不可修改的，通过给vec字段加入Refcell从而达到了可变的目的
+    let b = Test{vec: RefCell::new(v),num:1};
+    b.vec.borrow_mut().push(4);
+    //这段代码在cargo build不会出错，但是cargo run时会出错,因为出现了多个可变借用
+    // let a = b.vec.borrow_mut();
+    // let c = b.vec.borrow_mut();
+    // println!("{:?}, {:?}",a,c);
 }
 
-enum List2{
-    Cons(i32, Rc<List2>),
-    Nil,
+struct Test{
+    vec: RefCell<Vec<i32>>,
+    num: i32,
 }
