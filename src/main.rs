@@ -1,34 +1,12 @@
-use std::sync::{Arc, Mutex};
-use std::thread;
-
 fn main() {
     /*
-    共享状态的并发
-    通过Mutex::new()创建Mutex<T>,Mutex<T>是一个智能指针
-    
-    访问数据前，通过lock方法来获取锁，会阻塞当前线程，lock可能会失败，返回一个MutexGuard(智能指针，实现了Deref和Drop)
-     */
-    let counter = Arc::new(Mutex::new(0));
-    let mut handles = vec![];
-    
-    for _ in 1..10 {
-        //这里会移交所有权,而Rc只适合单线程
-        //可以使用Arc<T>来进行原子计数
-        // let handle = thread::spawn(move || {
-        //    let mut num =  counter.lock().unwrap();
-        //     *num += 1;
-        // });
-        let counter = Arc::clone(&counter);
-        let handle = thread::spawn(move||{
-            let mut num = counter.lock().unwrap();
-            *num += 1;
-        });
-        handles.push(handle);
-    }
-    
-    for handle in handles {
-        handle.join().unwrap();
-    }
-    
-    println!("Result: {}", *counter.lock().unwrap());
+        Send trait允许线程之间转移所有权
+        Rust中几乎所有类型都实现了Send
+        但是Rc<T>没有，只适用于单线程
+        任何由Send类型组成的类型也被标记为Send
+        除了原始指针之外都实现了Send
+        
+        Sync允许多线程访问，
+        如果T是Sync，那么 &T就是Send
+    */
 }
