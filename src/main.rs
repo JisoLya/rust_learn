@@ -1,25 +1,44 @@
 use std::cell::RefCell;
+use std::rc::Rc;
+use crate::List::{Cons, Nil};
 
 fn main() {
     /*
-    RefCell<T> 和Box<T>
-    Box<T>:
-    在编译阶段强制代码遵守借用规则
-    
-    RefCell<T>:
-    在运行时检查借用规则    
+        循环引用导致内存泄露
      */
-    let v = vec![1,2,3];
-    //这里b是不可修改的，通过给vec字段加入Refcell从而达到了可变的目的
-    let b = Test{vec: RefCell::new(v),num:1};
-    b.vec.borrow_mut().push(4);
-    //这段代码在cargo build不会出错，但是cargo run时会出错,因为出现了多个可变借用
-    // let a = b.vec.borrow_mut();
-    // let c = b.vec.borrow_mut();
-    // println!("{:?}, {:?}",a,c);
+    let a = Rc::new(Cons(5,RefCell::new(Rc::new(Nil))));
+    
+    println!("a initial rc count = {}", Rc::strong_count(&a));
+    println!("a next item = {:?}", a.tail());
+    
+    let b = Rc::new(Cons(10,RefCell::new(Rc::clone(&a))));
+    println!("a rc count after b creation = {}", Rc::strong_count(&a));
+    println!("b initial rc count = {}", Rc::strong_count(&b));
+    println!("b next item = {:?}", b.tail());
+    
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&b);
+    }
+    println!("b rc count after changing a = {}", Rc::strong_count(&b));
+    println!("a rc count after changing a = {}", Rc::strong_count(&a));
+    
+    /*
+    这里出现了 a -> b -> a ....无限循环,stack overflow
+     */
+    // println!("{:?}",a.tail());
 }
 
-struct Test{
-    vec: RefCell<Vec<i32>>,
-    num: i32,
+#[derive(Debug)]
+enum List{
+    Cons(i32,RefCell<Rc<List>>),
+    Nil,
+}
+
+impl List {
+    fn tail(&self) -> Option<&RefCell<Rc<List>>> {
+        match self { 
+            Cons(_, item) => Some(item),
+            List::Nil => None,
+        }
+    }
 }
